@@ -63,6 +63,11 @@
   .story h3 { font-size: 1.6rem; margin-bottom: 8px; }
   .story p { color: var(--muted); }
 
+  .journal { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; }
+  .journal img { width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block; margin-bottom: 14px; }
+  .journal small { color: var(--gold); letter-spacing: .15em; text-transform: uppercase; font-size: .7rem; }
+  .journal h3 { font-size: 1.6rem; margin: 4px 0; }
+  .journal p { color: var(--muted); }
   .news { background: var(--ink); color: var(--bg); text-align: center; }
   .news form { display: flex; max-width: 460px; margin: 30px auto 0; border-bottom: 1px solid var(--gold); }
   .news input { flex: 1; background: none; border: 0; color: var(--bg); padding: 12px 4px; font: inherit; outline: none; min-width: 0; }
@@ -95,7 +100,7 @@
 
 <header>
   <a class="logo" href="#">MAISON LUMIÈRE</a>
-  <nav><a href="#shop">Shop</a><a href="#story">Our Story</a><a href="#news">Journal</a></nav>
+  <nav><a href="#shop">Shop</a><a href="#story">Our Story</a><a href="#journal">Journal</a></nav>
   <button class="cart-btn" onclick="toggleCart()">Bag (<span id="count">0</span>)</button>
 </header>
 
@@ -119,6 +124,15 @@
     <div><h3>Crafted by hand</h3><p>Every piece is shaped by a single artisan, start to finish.</p></div>
     <div><h3>Lasting materials</h3><p>Silk, cashmere, solid gold and full-grain leather. Nothing less.</p></div>
     <div><h3>Free delivery</h3><p>Wrapped in our signature box, delivered worldwide at no cost.</p></div>
+  </div>
+</section>
+
+<section id="journal">
+  <div class="title"><h2>The Journal</h2><p>Stories from the Maison</p></div>
+  <div class="journal">
+    <article><img src="img/1.jpg" alt="" loading="lazy"><small>Craft · Nov 2026</small><h3>The secret life of silk</h3><p>From cocoon to scarf, one piece takes three weeks of patient work.</p></article>
+    <article><img src="img/13.jpg" alt="" loading="lazy"><small>Tech · Oct 2026</small><h3>Slow technology</h3><p>Why we only choose gadgets made to last for years, not seasons.</p></article>
+    <article><img src="img/4.jpg" alt="" loading="lazy"><small>Beauty · Sep 2026</small><h3>Notes of amber</h3><p>Our perfumer shares how a scent is built, layer by layer.</p></article>
   </div>
 </section>
 
@@ -155,6 +169,12 @@ const products = [
   { id: 6, name: "Gold Band Duo",       cat: "Jewelry",   price: 940,  icon: "💍", bg: "#f3ead6", tag: "Limited" },
   { id: 7, name: "Woven Clutch",        cat: "Bags",      price: 520,  icon: "👛", bg: "#e3dcef" },
   { id: 8, name: "Rose Facial Oil",     cat: "Beauty",    price: 95,   icon: "🌹", bg: "#f5e3dc" },
+  { id: 9,  name: "Studio Headphones",  cat: "3C",        price: 349,  icon: "🎧", bg: "#f3e9b8", tag: "New" },
+  { id: 10, name: "Leather Smartwatch", cat: "3C",        price: 499,  icon: "⌚", bg: "#e6ddd2" },
+  { id: 11, name: "Tablet & Keyboard",  cat: "3C",        price: 899,  icon: "📱", bg: "#e4e6e8" },
+  { id: 12, name: "Titan Smartphone",   cat: "3C",        price: 799,  icon: "📱", bg: "#f3eaa0" },
+  { id: 13, name: "Folding Film Camera", cat: "3C",       price: 620,  icon: "📷", bg: "#e9e2d8", tag: "Limited" },
+  { id: 14, name: "Halo Home Speaker",  cat: "3C",        price: 259,  icon: "🔊", bg: "#dfe6e6" },
 ];
 
 let cart = {};
