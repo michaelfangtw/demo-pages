@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maison Lumière</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2; --ink: #1d1a16; --muted: #7a7166; --gold: #b08d57;
+    --card: #ffffff; --line: #e8e1d6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font: 300 16px/1.6 Inter, sans-serif; }
+  h1, h2, h3, .logo { font-family: "Cormorant Garamond", serif; font-weight: 400; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+
+  header { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 5vw; background: rgba(250,247,242,.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .logo { font-size: 1.7rem; letter-spacing: .12em; }
+  nav { display: flex; gap: 28px; font-size: .85rem; letter-spacing: .15em; text-transform: uppercase; }
+  nav a:hover { color: var(--gold); }
+  .cart-btn { background: none; border: 1px solid var(--ink); padding: 8px 18px; letter-spacing: .1em; font-size: .8rem; text-transform: uppercase; }
+  .cart-btn:hover { background: var(--ink); color: var(--bg); }
+  @media (max-width: 700px) { nav { display: none; } }
+
+  .hero { min-height: 82vh; display: grid; place-items: center; text-align: center; padding: 60px 16px;
+    background: radial-gradient(circle at 30% 20%, #efe2c8 0, transparent 50%), radial-gradient(circle at 75% 80%, #e7d3d0 0, transparent 45%), var(--bg); }
+  .hero small { letter-spacing: .4em; text-transform: uppercase; color: var(--gold); font-size: .75rem; }
+  .hero h1 { font-size: clamp(3rem, 9vw, 7rem); line-height: 1; margin: 18px 0; }
+  .hero h1 em { color: var(--gold); }
+  .hero p { max-width: 520px; margin: 0 auto 36px; color: var(--muted); }
+  .btn { display: inline-block; background: var(--ink); color: var(--bg); border: 0; padding: 16px 40px; letter-spacing: .2em; text-transform: uppercase; font-size: .8rem; transition: background .3s; }
+  .btn:hover { background: var(--gold); }
+
+  section { padding: 90px 5vw; }
+  .title { text-align: center; margin-bottom: 50px; }
+  .title h2 { font-size: clamp(2rem, 5vw, 3.2rem); }
+  .title p { color: var(--muted); }
+
+  .filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+  .filters button { background: none; border: 1px solid var(--line); padding: 8px 20px; border-radius: 99px; font-size: .85rem; }
+  .filters button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 32px; max-width: 1200px; margin: 0 auto; }
+  .card { background: var(--card); transition: transform .4s, box-shadow .4s; }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(60,40,10,.1); }
+  .pic { aspect-ratio: 4/5; display: grid; place-items: center; font-size: 5rem; position: relative; overflow: hidden; }
+  .pic span { transition: transform .6s; }
+  .card:hover .pic span { transform: scale(1.15) rotate(-4deg); }
+  .tag { position: absolute; top: 14px; left: 14px; background: var(--ink); color: var(--bg); font-size: .65rem; letter-spacing: .15em; padding: 4px 10px; text-transform: uppercase; }
+  .info { padding: 20px; }
+  .info h3 { font-size: 1.4rem; }
+  .info .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+  .price { color: var(--gold); font-weight: 500; }
+  .add { background: none; border: 0; border-bottom: 1px solid var(--ink); font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; padding: 2px 0; }
+  .add:hover { color: var(--gold); border-color: var(--gold); }
+
+  .story { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; text-align: center; }
+  .story div { padding: 30px; border-top: 1px solid var(--gold); }
+  .story h3 { font-size: 1.6rem; margin-bottom: 8px; }
+  .story p { color: var(--muted); }
+
+  .news { background: var(--ink); color: var(--bg); text-align: center; }
+  .news form { display: flex; max-width: 460px; margin: 30px auto 0; border-bottom: 1px solid var(--gold); }
+  .news input { flex: 1; background: none; border: 0; color: var(--bg); padding: 12px 4px; font: inherit; outline: none; min-width: 0; }
+  .news button { background: none; border: 0; color: var(--gold); letter-spacing: .15em; text-transform: uppercase; font-size: .8rem; }
+
+  footer { text-align: center; padding: 30px; font-size: .8rem; color: var(--muted); }
+
+  /* cart drawer */
+  .shade { position: fixed; inset: 0; background: rgba(0,0,0,.35); opacity: 0; pointer-events: none; transition: .3s; z-index: 20; }
+  .drawer { position: fixed; top: 0; right: 0; height: 100%; width: min(400px, 100%); background: var(--bg); z-index: 21;
+    transform: translateX(100%); transition: transform .4s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; padding: 28px; }
+  body.open .shade { opacity: 1; pointer-events: auto; }
+  body.open .drawer { transform: none; }
+  .drawer h2 { font-size: 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .drawer h2 button { background: none; border: 0; font-size: 1.5rem; }
+  .items { flex: 1; overflow: auto; margin: 20px 0; }
+  .item { display: flex; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .item .mini { width: 56px; height: 56px; display: grid; place-items: center; font-size: 1.8rem; }
+  .item div { flex: 1; }
+  .qty button { width: 26px; height: 26px; border: 1px solid var(--line); background: none; }
+  .total { display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 16px; }
+  .empty { color: var(--muted); text-align: center; margin-top: 40px; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 120px); background: var(--ink); color: var(--bg);
+    padding: 12px 26px; transition: transform .4s; z-index: 30; font-size: .9rem; }
+  .toast.show { transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">MAISON LUMIÈRE</a>
+  <nav><a href="#shop">Shop</a><a href="#story">Our Story</a><a href="#news">Journal</a></nav>
+  <button class="cart-btn" onclick="toggleCart()">Bag (<span id="count">0</span>)</button>
+</header>
+
+<div class="hero">
+  <div>
+    <small>Autumn · Winter Collection</small>
+    <h1>The art of <em>quiet</em> luxury</h1>
+    <p>Hand-finished pieces made in small batches by artisans who still believe in slow, careful work.</p>
+    <a class="btn" href="#shop">Discover the collection</a>
+  </div>
+</div>
+
+<section id="shop">
+  <div class="title"><h2>The Collection</h2><p>Curated objects for a beautiful life</p></div>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="story">
+  <div class="story">
+    <div><h3>Crafted by hand</h3><p>Every piece is shaped by a single artisan, start to finish.</p></div>
+    <div><h3>Lasting materials</h3><p>Silk, cashmere, solid gold and full-grain leather. Nothing less.</p></div>
+    <div><h3>Free delivery</h3><p>Wrapped in our signature box, delivered worldwide at no cost.</p></div>
+  </div>
+</section>
+
+<section class="news" id="news">
+  <h2 style="font-size:2.5rem">Join the Maison</h2>
+  <p style="opacity:.7">Early access to new collections and private events.</p>
+  <form onsubmit="event.preventDefault(); this.reset(); toast('Welcome to the Maison ✨')">
+    <input type="email" required placeholder="Your email address" aria-label="Email">
+    <button>Subscribe</button>
+  </form>
+</section>
+
+<footer>© 2026 Maison Lumière · A demo boutique</footer>
+
+<div class="shade" onclick="toggleCart()"></div>
+<aside class="drawer" aria-label="Shopping bag">
+  <h2>Your Bag <button onclick="toggleCart()" aria-label="Close">×</button></h2>
+  <div class="items" id="items"></div>
+  <div class="total"><span>Total</span><span id="total">$0</span></div>
+  <button class="btn" onclick="checkout()">Checkout</button>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ponytail: products hardcoded, swap for a JSON file or API when the catalog grows
+const products = [
+  { id: 1, name: "Silk Evening Scarf", cat: "Fashion",    price: 290,  icon: "🧣", bg: "#f1e4d3", tag: "New" },
+  { id: 2, name: "Gold Pearl Earrings", cat: "Jewelry",   price: 680,  icon: "💎", bg: "#e9e2f0" },
+  { id: 3, name: "Leather Tote",        cat: "Bags",      price: 1150, icon: "👜", bg: "#ead9c6", tag: "Bestseller" },
+  { id: 4, name: "Amber Eau de Parfum", cat: "Beauty",    price: 210,  icon: "🌸", bg: "#f6e0e0" },
+  { id: 5, name: "Cashmere Beret",      cat: "Fashion",   price: 180,  icon: "🎩", bg: "#dfe3dd" },
+  { id: 6, name: "Signet Ring",         cat: "Jewelry",   price: 940,  icon: "💍", bg: "#f3ead6", tag: "Limited" },
+  { id: 7, name: "Velvet Clutch",       cat: "Bags",      price: 520,  icon: "👛", bg: "#e3dcef" },
+  { id: 8, name: "Rose Facial Oil",     cat: "Beauty",    price: 95,   icon: "🌹", bg: "#f5e3dc" },
+];
+
+let cart = {};
+try { cart = JSON.parse(localStorage.getItem("cart")) || {}; } catch {}
+let filter = "All";
+const $ = id => document.getElementById(id);
+const money = n => "$" + n.toLocaleString();
+
+function renderFilters() {
+  $("filters").innerHTML = ["All", ...new Set(products.map(p => p.cat))]
+    .map(c => `<button class="${c === filter ? "on" : ""}" onclick="filter='${c}';renderFilters();renderGrid()">${c}</button>`).join("");
+}
+
+function renderGrid() {
+  $("grid").innerHTML = products.filter(p => filter === "All" || p.cat === filter).map(p => `
+    <div class="card">
+      <div class="pic" style="background:${p.bg}">${p.tag ? `<i class="tag">${p.tag}</i>` : ""}<span>${p.icon}</span></div>
+      <div class="info">
+        <h3>${p.name}</h3>
+        <div class="row"><span class="price">${money(p.price)}</span>
+        <button class="add" onclick="add(${p.id})">Add to bag</button></div>
+      </div>
+    </div>`).join("");
+}
+
+function renderCart() {
+  try { localStorage.setItem("cart", JSON.stringify(cart)); } catch {}
+  const lines = Object.entries(cart).map(([id, q]) => [products.find(p => p.id == id), q]);
+  $("count").textContent = lines.reduce((s, [, q]) => s + q, 0);
+  $("total").textContent = money(lines.reduce((s, [p, q]) => s + p.price * q, 0));
+  $("items").innerHTML = lines.length ? lines.map(([p, q]) => `
+    <div class="item">
+      <span class="mini" style="background:${p.bg}">${p.icon}</span>
+      <div><b style="font-weight:500">${p.name}</b><br><span class="price">${money(p.price)}</span></div>
+      <span class="qty"><button onclick="change(${p.id},-1)">−</button> ${q} <button onclick="change(${p.id},1)">+</button></span>
+    </div>`).join("") : `<p class="empty">Your bag is empty.</p>`;
+}
+
+function add(id) { change(id, 1); toast("Added to your bag"); }
+function change(id, d) { cart[id] = (cart[id] || 0) + d; if (cart[id] <= 0) delete cart[id]; renderCart(); }
+function toggleCart() { document.body.classList.toggle("open"); }
+function checkout() {
+  if (!Object.keys(cart).length) return toast("Your bag is empty");
+  cart = {}; renderCart(); toggleCart(); toast("Thank you! (This is a demo — no payment taken)");
+}
+let t;
+function toast(msg) { $("toast").textContent = msg; $("toast").classList.add("show"); clearTimeout(t); t = setTimeout(() => $("toast").classList.remove("show"), 2200); }
+
+renderFilters(); renderGrid(); renderCart();
+</script>
+</body>
+</html>
